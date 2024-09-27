@@ -6,6 +6,8 @@ const ResetPasswordModal = ({ onClose }) => {
     confirmPassword: '',
   });
 
+  const [error, setError] = useState(''); // Para manejar los errores
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -18,22 +20,28 @@ const ResetPasswordModal = ({ onClose }) => {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("La nueva contraseña y la confirmación no coinciden.");
+      setError("Las contraseñas no coinciden. Inténtalo de nuevo.");
       return;
     }
 
-    console.log('Contraseña restablecida:', formData);
-    onClose(); // Cierra el modal después de enviar
+    // Procesar el restablecimiento de la contraseña aquí
+    console.log('Contraseña restablecida:', formData.newPassword);
+    setError(''); // Limpiar error si las contraseñas coinciden
+    onClose(); // Cierra el modal después de restablecer
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-lg w-full">
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Restablecer Contraseña</h2>
+        
+        {/* Formulario de restablecimiento de contraseña */}
         <form onSubmit={handleSubmit}>
           {/* Nueva Contraseña */}
           <div className="mb-4">
-            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">Nueva Contraseña</label>
+            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              Nueva Contraseña
+            </label>
             <input
               type="password"
               id="newPassword"
@@ -47,7 +55,9 @@ const ResetPasswordModal = ({ onClose }) => {
 
           {/* Confirmar Nueva Contraseña */}
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">Confirmar Nueva Contraseña</label>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              Confirmar Nueva Contraseña
+            </label>
             <input
               type="password"
               id="confirmPassword"
@@ -59,7 +69,10 @@ const ResetPasswordModal = ({ onClose }) => {
             />
           </div>
 
-          {/* Botón de enviar */}
+          {/* Mostrar mensaje de error si las contraseñas no coinciden */}
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+          {/* Botón de restablecer */}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-4"

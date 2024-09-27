@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ResetPasswordModal from './ResetPasswordModal'; // Importa el componente modal
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // Para manejar mensajes de error
-  const navigate = useNavigate(); // Hook para redireccionar
+  const [isModalOpen, setIsModalOpen] = useState(false); // Controla el estado del modal
+  const navigate = useNavigate(); 
 
   // Lista de usuarios permitidos (hardcoded)
   const users = [
@@ -16,7 +18,7 @@ const SignIn = () => {
 
   // Validación simple de email
   const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular para verificar formato de email
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
     return re.test(String(email).toLowerCase());
   };
 
@@ -47,6 +49,12 @@ const SignIn = () => {
     // Si las credenciales son válidas, limpiar errores y redirigir al menú
     setError(''); // Limpiar errores si todo está bien
     navigate('/menu'); // Redirigir al menú
+  };
+
+  // Función para abrir el modal de restablecimiento de contraseña
+  const handleForgotPassword = (e) => {
+    e.preventDefault(); // Evita la recarga de página
+    setIsModalOpen(true); // Abre el modal
   };
 
   return (
@@ -86,20 +94,33 @@ const SignIn = () => {
             </div>
           )}
 
+          {/* Enlace "¿Olvidaste tu contraseña?" */}
+          <div className="mt-2">
+            <button
+              onClick={handleForgotPassword}
+              className="text-sm text-gray-600 dark:text-gray-200 hover:underline"
+            >
+              ¿Has olvidado tu contraseña?
+            </button>
+          </div>
+
           <div className="mt-6">
             <button
               type="submit"
               className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
-              iniciar Sesión
+              Iniciar Sesión
             </button>
           </div>
         </form>
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
-          Aun no tienes cuenta? <Link to="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create una</Link>
+          Aún no tienes cuenta? <a href="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Créate una</a>
         </p>
       </div>
+
+      {/* Modal de restablecimiento de contraseña */}
+      {isModalOpen && <ResetPasswordModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

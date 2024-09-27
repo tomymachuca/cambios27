@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import ResetPasswordModal from './ResetPasswordModal.jsx'; // Importamos el modal para restablecer la contraseña
-import { useNavigate } from 'react-router-dom'; // Para navegar de vuelta al menú
-import Navbar from './Menu/Navbar'; // Importamos el Navbar global
+import { useNavigate } from 'react-router-dom'; 
+import Navbar from './Menu/Navbar'; 
+import ResetPasswordModal from './ResetPasswordModal'; // Importa el modal desde su archivo
 
 const AccountSettings = () => {
-  const [username, setUsername] = useState('Tomas machuca'); // Nombre predeterminado
-  const [email, setEmail] = useState('tomasmachuca@gmail.com'); // Correo predeterminado
-  const [isEditingName, setIsEditingName] = useState(false); // Controla si el nombre está en edición
-  const [isEditingEmail, setIsEditingEmail] = useState(false); // Controla si el email está en edición
-  const [isModalOpen, setIsModalOpen] = useState(false); // Controla si el modal está abierto o cerrado
-  const [error, setError] = useState(''); // Mensaje de error para el nombre vacío
-  const navigate = useNavigate(); // Hook de navegación
+  const [username, setUsername] = useState('Tomas machuca'); 
+  const [email, setEmail] = useState('tomasmachuca@gmail.com'); 
+  const [isEditingName, setIsEditingName] = useState(false); 
+  const [isEditingEmail, setIsEditingEmail] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [error, setError] = useState(''); 
+  const navigate = useNavigate(); 
 
   const handleGoToMenu = () => {
-    navigate('/menu'); // Redirige al menú
+    navigate('/menu'); 
   };
 
   const handleSaveChanges = () => {
@@ -29,17 +29,14 @@ const AccountSettings = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Importa el Navbar global */}
       <Navbar />
 
-      {/* Form Section */}
       <main className="flex flex-grow items-center justify-center mt-8">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full mx-4">
           <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
             Configuraciones
           </h2>
 
-          {/* Sección del nombre de usuario */}
           <div className="mb-4">
             <div className="flex justify-between items-center">
               <label className="text-sm font-medium text-gray-700">Nombre de Usuario:</label>
@@ -69,11 +66,9 @@ const AccountSettings = () => {
             ) : (
               <p className="mt-2 text-sm text-gray-800">{username}</p>
             )}
-            {/* Mensaje de error si el nombre de usuario está vacío */}
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
 
-          {/* Sección del correo electrónico */}
           <div className="mb-4">
             <div className="flex justify-between items-center">
               <label className="text-sm font-medium text-gray-700">Correo Electrónico:</label>
@@ -105,15 +100,13 @@ const AccountSettings = () => {
             )}
           </div>
 
-          {/* Botón para abrir el modal de restablecer contraseña */}
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen(true)} // Abrir modal
             className="w-full py-2 px-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mb-4"
           >
             Restablecer Contraseña
           </button>
 
-          {/* Botón para volver al menú */}
           <button
             onClick={handleGoToMenu}
             className="w-full py-2 px-4 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
@@ -123,7 +116,6 @@ const AccountSettings = () => {
         </div>
       </main>
 
-      {/* Modal de restablecer contraseña */}
       {isModalOpen && <ResetPasswordModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
